@@ -1,3 +1,25 @@
+# prosail v3.1.2
+
+Additional adjustments following JOSS reviewing stage
+
+## fix
+- fixed bug when lai = 0
+- fixed bug when computing SRF for pleiades sensor
+- use spec_soil_atbd_v2 instead of spec_soil_ossl in vignettes and tests
+
+## changes
+- created a `deprecated.R` file including all deprecated functions
+- deleted `set.seed(42)` internally when calling `get_atbd_lut_input`, `get_atbd_v3_lut_input`, `get_distribution_input_prosail` , `get_distribution_input_prosail2` 
+
+
+## additions
+- added test for convexity of surf_refl `test_convex_surf_refl.R`
+- added test for SRF application on flat reflectance `test_flat_spectrum_srf.R`
+- added test for lai = 0 `test_lai_zero.R`
+- added test for skyl range `test_skyl.R`
+- added test for soil_ID `test_soil_ID.R`
+- added test for srf validity `test_srf_valid.R`
+
 # prosail v3.1.1
 
 Additional adjustments following JOSS reviewing stage

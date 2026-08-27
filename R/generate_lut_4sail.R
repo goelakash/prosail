@@ -94,21 +94,3 @@ generate_lut_4sail <- function(input_prosail, spec_prospect, spec_soil,
   return(list('surface_refl' = refl, 'rdot' = rdot, 'rsot' = rsot,
               'rsdt' = rsdt, 'rddt' = rddt))
 }
-
-
-
-#' @rdname prosail-deprecated
-#' @export
-Generate_LUT_4SAIL <- function(InputPROSAIL, SpecPROSPECT, SpecSOIL, SpecATM,
-                               BandNames = NULL, SAILversion ='4SAIL',
-                               BrownLOP = NULL){
-  .Deprecated("generate_lut_4sail")
-  generate_lut_4sail(input_prosail = InputPROSAIL,
-                     spec_prospect = SpecPROSPECT,
-                     spec_soil = SpecSOIL,
-                     spec_atm = SpecATM,
-                     band_names = BandNames,
-                     SAILversion = SAILversion,
-                     brown_lop = BrownLOP)
-}
-

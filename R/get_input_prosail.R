@@ -90,20 +90,3 @@ get_input_prosail <- function(atbd = FALSE, geom_acq = NULL,
   input_prosail <- data.frame(input_prosail)
   return(input_prosail)
 }
-
-
-#' @rdname prosail-deprecated
-#' @export
-get_InputPROSAIL <- function(atbd = FALSE, GeomAcq = NULL, Codist_LAI = TRUE,
-                             minval = NULL, maxval = NULL,
-                             TypeDistrib = NULL, GaussianDistrib = NULL,
-                             ParmSet = NULL, nbSamples = 2000, verbose = FALSE){
-  .Deprecated("get_input_prosail")
-  get_input_prosail(atbd = atbd, geom_acq = GeomAcq,
-                    codistribution_lai = Codist_LAI,
-                    minval = minval, maxval = maxval,
-                    type_distrib = TypeDistrib,
-                    gaussian_distrib = GaussianDistrib,
-                    parm_set = ParmSet, nb_samples = nbSamples,
-                    verbose = verbose)
-}

@@ -72,23 +72,3 @@ apply_prosail_inversion <- function(raster_path, mask_path = NULL, hybrid_model,
   print('processing completed')
   return(bp_path)
 }
-
-#' @rdname prosail-deprecated
-#' @export
-Apply_prosail_inversion <- function(raster_path, HybridModel, PathOut,
-                                    SelectedBands, bandname, MaskRaster = NULL,
-                                    MultiplyingFactor = 10000, maxRows = 100,
-                                    bigRaster = FALSE, progressBar = TRUE,
-                                    filetype = 'GTiff'){
-  .Deprecated("apply_prosail_inversion")
-  options <- list('multiplying_factor' = MultiplyingFactor, 'maxRows' = maxRows,
-                  'progressBar' = progressBar, 'filetype' = filetype)
-
-  apply_prosail_inversion(raster_path = raster_path,
-                          mask_path = MaskRaster,
-                          hybrid_model = HybridModel,
-                          output_dir = PathOut,
-                          band_names = bandname,
-                          selected_bands = SelectedBands,
-                          options = options)
-}

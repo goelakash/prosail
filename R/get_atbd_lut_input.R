@@ -34,7 +34,7 @@ get_atbd_lut_input <- function(nb_samples = 2000, geom_acq = NULL,
   # get distribution corresponding to gaussians
   input_prosail <- list()
   for (parm in names(t_gauss_parms$min)){
-    set.seed(42)
+    # set.seed(42)
     input_prosail[[parm]] <- truncnorm::rtruncnorm(n = nb_samples,
                                                    a = t_gauss_parms$min[[parm]],
                                                    b = t_gauss_parms$max[[parm]],
@@ -111,13 +111,4 @@ get_atbd_lut_input <- function(nb_samples = 2000, geom_acq = NULL,
   input_prosail$type_lidf <- 2
   input_prosail$alpha <- 40
   return(input_prosail)
-}
-
-
-#' @rdname prosail-deprecated
-#' @export
-get_atbd_LUT_input <- function(nbSamples = 2000, GeomAcq = NULL,
-                               Codist_LAI = TRUE){
-  .Deprecated("get_atbd_lut_input")
-  get_atbd_lut_input(nbSamples, GeomAcq, Codist_LAI)
 }

@@ -97,7 +97,7 @@ get_distribution_input_prosail2 <- function(minval, maxval, parm_set,
                                     dim = c(nb_samples,1))
       # if Gaussian distribution
     } else if (tolower(type_distrib[[sel]]) == 'gaussian'){
-      set.seed(42)
+      # set.seed(42)
       input_prosail[[sel]] <- truncnorm::rtruncnorm(n = nb_samples,
                                                     a = minval[[sel]],
                                                     b = maxval[[sel]],

@@ -62,7 +62,7 @@ parm_set <- data.frame('tts' = 40, 'tto' = 0, 'psi' = 60, 'soil_brightness' = 1,
                        'ant' = 0, 'brown' = 0, 'hotspot' = 0.1)
 
 # define soil reflectance (set as prior knowledge) and spec_soil variable
-rsoil <- parm_set$soil_brightness*spec_soil_ossl$soil_01
+rsoil <- parm_set$soil_brightness*spec_soil_atbd_v2$soil_01
 spec_soil <- data.frame('lambda' = spec_soil$lambda, 
                         'refl' = rsoil)
 

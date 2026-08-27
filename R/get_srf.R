@@ -31,11 +31,3 @@ get_srf <- function(wvl, fwhm, sensor_name = 'user_defined'){
               'sensor' = sensor_name)
   return(srf)
 }
-
-
-#' @rdname prosail-deprecated
-#' @export
-Compute_SRF <- function(wvl,FWHM, SensorName = 'user_defined'){
-  .Deprecated("get_srf")
-  get_srf(wvl = wvl, fwhm = FWHM, sensor_name = SensorName)
-}

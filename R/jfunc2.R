@@ -12,9 +12,3 @@ jfunc2 <- function(k,l,t){
   return(Jout)
 }
 
-#' @rdname prosail-deprecated
-#' @export
-Jfunc2 <- function(k,l,t){
-  .Deprecated("jfunc2")
-  jfunc2(k,l,t)
-}

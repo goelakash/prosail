@@ -65,12 +65,14 @@ fourSAIL2  <- function(leaf_green, leaf_brown, type_lidf = 2, lidf_a = 60,
     message('Please define positive LAI value')
     rddt <- rsdt <- rdot <- rsost <- rsot <- rsoil
     alfast <- alfadt <- 0*rsoil
+    rsdstar <- rddstar <- rsoil
   } else if (lai==0){
     tss <- too <- tsstoo <- tdd <- 1.0
     rdd <- rsd <- tsd <- rdo <- tdo <- 0.0
     rso <- rsos <- rsod <- rsodt <- 0.0
     rddt <- rsdt <- rdot <- rsost <- rsot <- rsoil
     alfast <- alfadt <- 0*rsoil
+    rsdstar <- rddstar <- rsoil
   } else if (lai>0){
     cts <- cos(rd*tts)
     cto <- cos(rd*tto)

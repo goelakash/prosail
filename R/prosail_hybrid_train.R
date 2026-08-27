@@ -166,8 +166,8 @@ prosail_hybrid_train <- function(refl_lut, input_variables, nb_bagg = 10,
                                   preProcess = c("center", "scale"),
                                   trControl = control)
     } else if (method == 'rf'){
-      seed <- 7
-      set.seed(seed)
+      # seed <- 7
+      # set.seed(seed)
       mtry <- ncol(training_set$X)/3
       tuned_model <- train(target~.,
                            data = training_data,
@@ -215,19 +215,3 @@ prosail_hybrid_train <- function(refl_lut, input_variables, nb_bagg = 10,
   }
   return(models_mlr)
 }
-
-
-#' @rdname prosail-deprecated
-#' @export
-
-PROSAIL_Hybrid_Train <- function(BRF_LUT, InputVar, nbEnsemble = 20,
-                                 WithReplacement = FALSE,
-                                 method = 'liquidSVM',
-                                 verbose = FALSE, progressBar = FALSE){
-  .Deprecated("prosail_hybrid_train")
-  prosail_hybrid_train(refl_lut = BRF_LUT, input_variables = InputVar,
-                       nb_bagg = nbEnsemble, replacement = WithReplacement,
-                       method = method, verbose = verbose,
-                       progressBar = progressBar)
-}
-

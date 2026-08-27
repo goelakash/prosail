@@ -138,26 +138,28 @@ fourSAIL  <- function(lop, type_lidf = 2, lidf_a = 60, lidf_b = NULL,
 
   #	Here the LAI comes in
   #   Outputs for the case LAI = 0
-  if (lai<0){
-    tss <- 1          # beam transmittance in the sun-target path.
-    too <- 1          # beam transmittance in the target-view path.
-    tsstoo <- 1       # beam transmittance in the sun-target-view path.
-    rdd <- 0          # canopy bihemispherical reflectance factor.
-    tdd <- 1          # canopy bihemispherical transmittance factor.
-    rsd <- 0          # canopy directional-hemispherical reflectance factor.
-    tsd <- 0          # canopy directional-hemispherical transmittance factor.
-    rdo <- 0          # canopy hemispherical-directional reflectance factor.
-    tdo <- 0          # canopy hemispherical-directional transmittance factor.
-    rso <- 0          # canopy bidirectional reflectance factor.
-    rsos <- 0         # single scattering contribution to rso.
-    rsod <- 0         # multiple scattering contribution to rso.
+  if (lai<=0){
+    tss <- 1            # beam transmittance in the sun-target path.
+    too <- 1            # beam transmittance in the target-view path.
+    tsstoo <- 1         # beam transmittance in the sun-target-view path.
+    rdd <- 0            # canopy bihemispherical reflectance factor.
+    tdd <- 1            # canopy bihemispherical transmittance factor.
+    rsd <- 0            # canopy directional-hemispherical reflectance factor.
+    tsd <- 0            # canopy directional-hemispherical transmittance factor.
+    rdo <- 0            # canopy hemispherical-directional reflectance factor.
+    tdo <- 0            # canopy hemispherical-directional transmittance factor.
+    rso <- 0            # canopy bidirectional reflectance factor.
+    rsos <- 0           # single scattering contribution to rso.
+    rsod <- 0           # multiple scattering contribution to rso.
 
-    rddt <- rsoil     # surface bihemispherical reflectance factor.
-    rsdt <- rsoil     # surface directional-hemispherical reflectance factor.
-    rdot <- rsoil     # surface hemispherical-directional reflectance factor.
-    rsodt <- 0*rsoil  # reflectance factor.
-    rsost <- rsoil    # reflectance factor.
-    rsot <- rsoil     # surface bidirectional reflectance factor.
+    rddt <- rsoil       # surface bihemispherical reflectance factor.
+    rsdt <- rsoil       # surface directional-hemispherical reflectance factor.
+    rdot <- rsoil       # surface hemispherical-directional reflectance factor.
+    rsodt <- 0*rsoil    # reflectance factor.
+    rsost <- rsoil      # reflectance factor.
+    rsot <- rsoil       # surface bidirectional reflectance factor.
+    dn <- 1.-rsoil*rdd  #	Interaction with the soil
+    abs_dir <- abs_hem <- 0*rsoil
   } else {
     #	Other cases (LAI > 0)
     e1 <- exp(-m*lai)
@@ -252,21 +254,21 @@ fourSAIL  <- function(lop, type_lidf = 2, lidf_a = 60, lidf_b = NULL,
     rsodt <- rsod+((tss+tsd)*tdo+(tsd+tss*rsoil*rdd)*too)*rsoil/dn
     rsost <- rsos+tsstoo*rsoil
     rsot <- rsost+rsodt
-
-    # compute directional and hemispherical absorbances
-    abs_dir <- 1 - rsdt - ((1-rsoil)*tss) - (1-rsoil)*((tss*rsoil*rdd)+tsd)/dn
-    abs_hem <- 1 - rddt - ((1-rsoil)*tdd) - (1-rsoil)*(tdd*rdd*rsoil)/dn
-
-    # # compute absorbances of the isolated canopy (from J. Gomez Dans)
-    # alfas <- 1.0 - tss - tsd - rsd  # direct flux
-    # alfad <- 1.0 - tdd - rdd  # diffuse
-    # alfasx <- alfas + (rsoil * (tss + tsd) / dn) * alfad
-    # alfadx <- alfad + ((tdd * rsoil) / dn) * alfas
-
-    # compute Albedo (from J. Gomez Dans)
-    rsdstar <- rsd + (tss + tsd) * rsoil * tdd / dn
-    rddstar <- rdd + (tdd * tdd * rsoil) / dn
   }
+
+  # compute directional and hemispherical absorbances
+  abs_dir <- 1 - rsdt - ((1-rsoil)*tss) - (1-rsoil)*((tss*rsoil*rdd)+tsd)/dn
+  abs_hem <- 1 - rddt - ((1-rsoil)*tdd) - (1-rsoil)*(tdd*rdd*rsoil)/dn
+
+  # # compute absorbances of the isolated canopy (from J. Gomez Dans)
+  # alfas <- 1.0 - tss - tsd - rsd  # direct flux
+  # alfad <- 1.0 - tdd - rdd  # diffuse
+  # alfasx <- alfas + (rsoil * (tss + tsd) / dn) * alfad
+  # alfadx <- alfad + ((tdd * rsoil) / dn) * alfas
+
+  # compute Albedo (from J. Gomez Dans)
+  rsdstar <- rsd + (tss + tsd) * rsoil * tdd / dn
+  rddstar <- rdd + (tdd * tdd * rsoil) / dn
   my_list <- list('rdot' = rdot, 'rsot' = rsot, 'rddt' = rddt, 'rsdt' = rsdt,
                   'fcover' = 1 - too, 'abs_dir' = abs_dir, 'abs_hem' = abs_hem,
                   'rsdstar' = rsdstar, 'rddstar' = rddstar)

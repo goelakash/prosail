@@ -11,7 +11,7 @@ test_that("PROSAIL iterative optimization", {
                          'soil_brightness' = 1, 'lidf_a' = 60, 'ant' = 0,
                          'brown' = 0, 'hotspot' = 0.1)
   # compute soil reflectance
-  rsoil <- parm_set$soil_brightness*spec_soil_ossl$soil_01
+  rsoil <- parm_set$soil_brightness*spec_soil_atbd_v2$soil_01
   # simulate canopy surf_refl with 1 nm sampling
   truth <- data.frame('chl' = 60, 'car' = 8, 'ewt' = 0.015, 'lma' = 0.005,
                       'lai' = 5,  'n_struct' = 1.8)
@@ -27,7 +27,7 @@ test_that("PROSAIL iterative optimization", {
                                  tts = parm_set$tts,
                                  spec_atm_sensor = spec_atm)
   # invert 1 nm data
-  spec_soil_sensor <- spec_soil_ossl[c('lambda', 'soil_01')]
+  spec_soil_sensor <- spec_soil_atbd_v2[c('lambda', 'soil_01')]
   names(spec_soil_sensor) <- c('lambda', 'refl')
   est <- invert_prosail(refl_mes = surf_refl_1nm$surf_refl,
                         initialization = init,

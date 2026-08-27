@@ -75,10 +75,10 @@ get_srf_sensor <- function(sensor_name = 'user_defined',
                                          'SPOT_7', 'SPOT7', 'SPOT-7')){
     srf <- prosail::SPOT_6_7
     srf$sensor <- 'SPOT_6_7'
-  } else if (toupper(sensor_name) %in% c('PLEIADES', 'PLEIADES_1A')){
+  } else if (toupper(sensor_name) %in% c('PLEIADES', 'PLEIADES_1A', 'PLEIADES-1A')){
     srf <- prosail::Pleiades_1A
     srf$sensor <- 'Pleiades_1A'
-  } else if (toupper(sensor_name)=='PLEIADES_1B'){
+  } else if (toupper(sensor_name) %in% c('PLEIADES_1B', 'PLEIADES-1B')){
     srf <- prosail::Pleiades_1B
     srf$sensor <- 'Pleiades_1B'
     # == == == == == == == == == == == == == == == == == == == == == == == == =
@@ -172,19 +172,4 @@ get_srf_sensor <- function(sensor_name = 'user_defined',
     }
   }
   return(srf)
-}
-
-
-#' @rdname prosail-deprecated
-#' @export
-GetRadiometry <- function(SensorName = 'user_defined',
-                          SpectralProps = NULL,
-                          Path_SensorResponse = './',
-                          SaveSRF = TRUE){
-  .Deprecated("get_srf_sensor")
-  get_srf_sensor(sensor_name = SensorName,
-                 wl = SpectralProps$wl,
-                 fwhm = SpectralProps$fwhm,
-                 srf_path = Path_SensorResponse,
-                 save_srf = SaveSRF)
 }
