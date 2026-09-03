@@ -1,3 +1,11 @@
+# prosail v3.1.3
+
+Additional adjustments following JOSS reviewing stage
+
+## changes
+- changed vignette names to better reflect their content
+- updated JOSS paper manuscript following recommendations (https://github.com/jbferet/prosail/issues/18)
+
 # prosail v3.1.2
 
 Additional adjustments following JOSS reviewing stage

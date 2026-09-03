@@ -13,7 +13,7 @@ output:
     number_sections: true
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{5. hybrid inversion imaging spectroscopy}
+  %\VignetteIndexEntry{5. Apply prosail hybrid inversion imaging spectroscopy}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---

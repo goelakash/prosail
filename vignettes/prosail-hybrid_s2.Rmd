@@ -1,5 +1,5 @@
 ---
-title: "4. Estimate vegetation properties from optical images"
+title: "4. Estimate vegetation properties from sentinel-2 imagery"
 author: "Jean-Baptiste Féret, Florian de Boissieu"
 date: "`r Sys.Date()`"
 output:
@@ -13,7 +13,7 @@ output:
     number_sections: true
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{4. Estimate vegetation properties from optical images}
+  %\VignetteIndexEntry{4. Estimate vegetation properties from sentinel-2 imagery}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---

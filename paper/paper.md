@@ -91,9 +91,6 @@ Alternative distributions provide more interactive parameterization of the
 inversion strategy, e.g. the *Automated Radiative Transfer Models Operator*
 (ARTMO) Matlab toolbox [@rivera2014].
 
-`prosail` includes *4SAIL* [@verhoef2007], and *4SAIL2* [@verhoefbach2007], 
-a two layers version of *4SAIL*. 
-
 `prosail` does not intend to provide the same computational efficiency as SNAP. 
 It does not provide a collection of models and methods as comprehensive as those 
 provided with the ARTMO box neither. 
@@ -105,8 +102,7 @@ It is suitable for research and development, to identify potential and
 limitations of inversion strategies.
 Resulting regression models can be applied on remote sensing data, but it may 
 not be the appropriate software for scaling up operational vegetation monitoring 
-applications.
-
+applications. 
 Alternative PROSAIL implementations are also available in 
 [python](https://github.com/jgomezdans/prosail), 
 [Julia](https://github.com/RemoteSensingTools/CanopyOptics.jl) and 
@@ -117,7 +113,9 @@ Other options are available on
 
 # Software design
 
-`prosail` uses `prospect` for the simulation of leaf optical properties. 
+`prosail` uses `prospect` [@feret2017; @feret2021] for the simulation of leaf optical properties. 
+It includes *4SAIL* [@verhoef2007], and *4SAIL2* [@verhoefbach2007], 
+a two layers version of *4SAIL* as canopy models. 
 `prosail` provides user-friendly and modular functions to simulate vegetation 
 canopy reflectance, and to predict biophysical properties using inversion. 
 
@@ -158,46 +156,37 @@ maintained.
 
 # Overview
 
-## PROSAIL simulation in forward mode
+## Simulating canopy reflectance with PROSAIL
 
-PROSAIL requires information intrinsic to vegetation, including leaf optical 
+PROSAIL requires defining vegetation properties, including leaf optical 
 properties simulated with `prospect`, or measured experimentally, LAI, and leaf 
 inclination distribution. 
-
 PROSAIL also requires information extrinsic to vegetation, including the foliage 
 hot spot parameter [@kuusk1991; @breon2002; @verhoefbach2007], the sun-observer 
 geometry (sun and observer zenith angles, relative azimuth angle), and soil 
 reflectance.
-
 SAIL produces top-of-canopy bi-hemispherical reflectance factor, 
 directional-hemispherical reflectance factor for solar incident flux, 
 hemispherical-directional reflectance factor in viewing direction and 
 bi-directional reflectance factor.
 
-
-## Simulating surface reflectance acquired by a sensor 
-
-Simulating sensor surface reflectance requires a SRF. 
-A selection of SRF corresponding to multiple sensors is already implemented in 
-`prosail`, including Sentinel-2, Landsat and MODIS.
-
-User-defined sensors require defining central wavelength and full width at half 
-maximum (fwhm) for each band, assuming gaussian response. 
-Exact SRF from external files can also be provided. 
+These reflectance factors can then be used to simulate surface reflectance 
+acquired by a sensor with known SRF. 
+The SRF from multiple sensors is already implemented in `prosail`, listed when 
+calling `srf_availability()`. 
+User-defined sensors require either defining central wavelength and full width at half 
+maximum (fwhm) for each band, assuming gaussian response, or the exact SRF 
+provided with a .csv files. 
 
 
 ## PROSAIL hybrid inversion
 
 ### Simulating surface reflectance to prepare for regression model training 
 
-Preparing for training regression models needs defining: 
-
-- a sampling strategy (range, distribution, co-distributions for input 
-parameters)
-
-- a level of noise applicable to the simulated surface reflectance
-
-- spectral bands used for the training of the regression model
+Regression models are trained based on 
+i. a sampling strategy (range, distribution, co-distributions for input parameters), 
+ii. a level of noise applicable to the simulated surface reflectance, and 
+iii. spectral bands used for the training of the regression model.
 
 The default parameterization of `prosail` hybrid inversion relies on the 
 production of a surface reflectance LUT compliant with the specifications 
@@ -212,10 +201,9 @@ on a bootstrap aggregating (bagging) prediction of biophysical properties from
 support vector regression (SVR) models.
 Each SVR model is trained with a limited number of samples, ensuring fast 
 training stage. 
-The predicted value then corresponds to the mean prediction from a set of 
-SVR models.
+The predicted value corresponds to the mean prediction from a set of SVR models.
 The standard deviation is derived from this ensemble of predictors.
-However, standard deviation may not provide accurate model uncertainty 
+Standard deviation may not provide accurate model uncertainty 
 quantification [@palmer2022].
 
 The default parameterization uses an ensemble of 10 SVR models trained with 200 
@@ -240,15 +228,12 @@ properties from data tables or raster data.
 
 Once ML regression models are trained, `prosail` hybrid inversion can be applied
 on Sentinel-2 imagery using the function `apply_prosail_inversion`.
-
 Biophysical variables produced with SNAP are compared to those produced
 with the `prosail` hybrid inversion.
 The Sentinel-2 Level-2A product corresponding to tile *30SWJ* acquired on
 *May 13th, 2021* over an agricultural landscape located next to Barrax (Spain)
 was downloaded from the Copernicus Data Space Ecosystem
 ([CDSE](https://browser.dataspace.copernicus.eu)).
-
-
 LAI, fcover and fAPAR computed from Sentinel-2 images with `prosail` hybrid 
 inversion are compared to those produced with SNAP in Figure \ref{fig:SNAP_prosail}. 
 
@@ -256,38 +241,27 @@ inversion are compared to those produced with SNAP in Figure \ref{fig:SNAP_prosa
 
 The two methods show good consistency, with Pearson correlation 
 coefficient > 0.99 for LAI, and > 0.97 for fCover and fAPAR.
-Algorithmic differences remain between the two implementations, including: 
-
-- the version of the PROSPECT model: SNAP uses a version anterior to PROSPECT-D,
-
-- the ML algorithm. 
-
+Algorithmic differences include the PROSPECT version (SNAP uses a version 
+anterior to PROSPECT-D) and the  ML algorithm. 
 Differences in soil properties accounted for in simulations with low LAI may 
 also contribute, despite efforts to reproduce the workflow described in the ATBD. 
 Additional tests performed over croplands and forests showed similar performances. 
-
-
 Figure \ref{fig:barrax} displays a set of biophysical properties mapped over the 
 region of interest.  
 
 ![Leaf chlorophyll content, LAI, fCover and fAPAR mapped over the region of Barrax (Spain). \label{fig:barrax}](hybrid_inversion_barrax.png){ width=75% }
 
 
-The availability of open source and fully parameterizable inversion procedures 
-should contribute to improve reproducibility of currently available softwares.
-
 # Conclusion
 
 `prosail` is an R package dedicated to the canopy reflectance model PROSAIL, 
 simulating reflectance from optical sensors based on their spectral response. 
 It includes inversion based on iterative optimization and ML/RTM inversion. 
-
 Vegetation biophysical properties estimated with a hybrid inversion are 
 consistent with estimations from SNAP. 
-
 `prosail` hybrid inversion does not intend to be computationally as efficient as 
 SNAP. 
-It is not appropriate for regional to global scale vegetation monitoring. 
+The current version not appropriate for regional to global scale vegetation monitoring. 
 `prosail` hybrid inversion offers a fully adjustable hybrid inversion framework, 
 including an original parsimonious ML regression method, allowing fast and 
 efficient training. 
@@ -310,6 +284,8 @@ ANR-24-PEFO-0003.
 We are grateful to Wout Verhoef for the 4SAIL and 4SAIL2 models. 
 We are grateful to Stéphane Jacquemoud and Frédéric Baret for the initial 
 version of the PROSPECT model.
+We are grateful to the reviewers who contributed to significantly improve 
+the quality of the manuscript and the stability of this package. 
 
 # AI Usage Disclosure
 
