@@ -34,15 +34,9 @@ model (SAIL) which simulates canopy bidirectional reflectance
 infrared domains. 
 PROSAIL is a valuable tool for agriculture, ecology, and climate research [@poulter2023]. 
 Inversion procedures allow retrieval of vegetation biophysical properties, 
-including 
-
-- leaf area index (LAI)
-
-- leaf chemistry
-
-- the fraction of absorbed photosynthetically active radiation (fAPAR)
-
-- fractional vegetation cover (fCover)
+including leaf area index (LAI), leaf chemistry, the fraction of absorbed 
+photosynthetically active radiation (fAPAR), and fractional vegetation cover 
+(fCover).
 
 We introduce `prosail`, an R package which provides multiple versions of 
 the model PROSAIL, coupled `prospect` [@feret2024]. 
